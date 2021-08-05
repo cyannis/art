@@ -14,12 +14,14 @@
 
     $(document).ready(function() {
 
-      $.getJSON("https://raw.githubusercontent.com/cyannis/art/main/filenames.json", function(filenames) {
+      $.getJSON("https://raw.githubusercontent.com/cyannis/art/main/filenames.json?v=1", function(filenames) {
 
         for(var i = 0; i<8; ++i) {
 
+          console.log(filenames[i].replace('#','-'))
+
           $('.grid').append('<div class="grid-item">' +
-            '<img src="images/' + filenames[i] + '">' +
+            '<img src="images/' + filenames[i].replace('#','-') + '">' +
             '</div>')
 
         }
