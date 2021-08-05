@@ -14,8 +14,16 @@
 
     $(document).ready(function() {
 
-      $.getJSON("filenames.json", function(json) {
-        console.log(json); // this will show the info it in firebug console
+      $.getJSON("https://raw.githubusercontent.com/cyannis/art/main/filenames.json", function(filenames) {
+
+        for(var i = 0; i<8; ++i) {
+
+          $('.grid').append('<div class="grid-item">' +
+            '<img src="images/' + filenames[i] + '">' +
+            '</div>')
+
+        }
+
       });
 
     });
