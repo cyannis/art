@@ -1,0 +1,37 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <script>
+
+    $(document).ready(function() {
+
+      $.getJSON("filenames.json", function(json) {
+        console.log(json); // this will show the info it in firebug console
+      });
+
+    });
+
+  </script>
+
+  <style>
+  </style>
+
+</head>
+
+<body>
+
+  <div class="grid">
+  </div>
+
+</body>
+
+</html>
