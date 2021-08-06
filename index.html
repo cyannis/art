@@ -7,8 +7,9 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 
   <script>
 
@@ -16,15 +17,41 @@
 
       $.getJSON("https://raw.githubusercontent.com/cyannis/art/main/filenames.json?v=1", function(filenames) {
 
-        for(var i = 0; i<8; ++i) {
+        $(".color").each(function(index) {
+          $(this).on("click", function() {
 
-          console.log(filenames[i].replace('#','-'))
+            $('.grid').masonry('destroy');
+            $('.grid').html("<div class=\"grid-sizer\"></div>");
 
-          $('.grid').append('<div class="grid-item">' +
-            '<img src="images/' + filenames[i].replace('#','-') + '">' +
-            '</div>')
+            for(var i = 0; i<filenames[index].length; ++i) {
+              $('.grid').append('<div class="grid-item">' +
+                '<img style="display:none;" ' +
+                'src="images/' + filenames[index][i] + '">' +
+                '</div>')
 
-        }
+            }
+            /*
+            $('img').each(function(index) {
+              $(this).bind("load", function() {
+                $(this).fadeIn();
+              });
+            });
+            */
+
+            var $grid = $('.grid').masonry({
+              itemSelector: '.grid-item',
+              percentPosition: true,
+              columnWidth: '.grid-sizer'
+            });
+
+            // layout Masonry after each image loads
+            $grid.imagesLoaded().progress( function( instance, image ) {
+              $grid.masonry();
+              $(image.img).show();
+            });
+
+          });
+        });
 
       });
 
@@ -33,13 +60,98 @@
   </script>
 
   <style>
+    * { box-sizing: border-box; }
+
+    /* force scrollbar */
+    html { overflow-y: scroll; }
+
+    body { font-family: sans-serif; }
+
+    /* ---- grid ---- */
+
+    .grid {
+    }
+
+    /* clear fix */
+    .grid:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    /* ---- .grid-item ---- */
+
+    .grid-sizer,
+    .grid-item {
+      width: 25%;
+    }
+
+    .grid-item {
+      float: left;
+    }
+
+    .grid-item img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .palette {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 8px;
+    }
+
+    .color {
+      width: 12.5%;
+      height: 40px;
+      float: left;
+      background-color: #000;
+    }
+
+    .color-0 {
+      background-color: rgb(228,80,80);
+    }
+    .color-1 {
+      background-color: rgb(245,150,80);
+    }
+    .color-2 {
+      background-color: rgb(246,231,90);
+    }
+    .color-3 {
+      background-color: rgb(159,225,127);
+    }
+    .color-4 {
+      background-color: rgb(127,226,226);
+    }
+    .color-5 {
+      background-color: rgb(89,156,255);
+    }
+    .color-6 {
+      background-color: rgb(105,71,204);
+    }
+    .color-7 {
+      background-color: rgb(255, 119, 201);
+    }
+
   </style>
 
 </head>
 
 <body>
 
+  <div class="palette">
+    <div class="color color-0 active"></div>
+    <div class="color color-1"></div>
+    <div class="color color-2"></div>
+    <div class="color color-3"></div>
+    <div class="color color-4"></div>
+    <div class="color color-5"></div>
+    <div class="color color-6"></div>
+    <div class="color color-7"></div>
+  </div>
+
   <div class="grid">
+    <div class="grid-sizer"></div>
   </div>
 
 </body>
